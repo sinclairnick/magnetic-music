@@ -17,7 +17,7 @@ module.exports = function (options) {
 
             //defaulting options object
             options.page = options.page || 1;
-            options.array = options.array || 1;
+            options.array = options.array || [];
 
             Promise.all([
                 searchBTDB(options),
