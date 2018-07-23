@@ -1,5 +1,5 @@
 # magnetic-music
-NPM Package which searches various torrenting databases for music and returns a promise containing sorted Albums.
+npm Package (pending) which searches various torrenting databases for music and returns a promise containing sorted Albums.
 ---
 
 ### Usage
