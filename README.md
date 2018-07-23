@@ -66,3 +66,7 @@ The optional page number allows you to paginate and get more results as you see 
   page: NUMBER    //optional
 }
 ```
+
+TO-DO:
+* Implement type-checking via TypeScript
+* Add more torrent databases
