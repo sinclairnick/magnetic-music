@@ -31,6 +31,21 @@ module.exports = function (options) {
         else {
             throw new Error('No options object provided');
         }
+
+        //timeout and resolve array if any albums were found, or reject, after 15 seconds
+        //protects against infinitely waiting for low-seed torrents
+        setTimeout(()=> {
+            if(options.array.length > 0){
+                console.warn('magnetic-music timed out. Resolving gathered results (incomplete)')
+                resolve(options.array);
+            }
+            else{
+                reject(options.array);
+            }
+        }, 15000);
     })
 
 }
+
+module.exports({query: 'mozart'})
+.then(albums => console.log(albums[2]));
