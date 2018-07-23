@@ -1,7 +1,7 @@
 {
   "name": "magnetic-music",
   "version": "1.0.0",
-  "description": "Add-on package for Juke music player",
+  "description": "npm package for finding and sorting music torrents",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
@@ -19,9 +19,6 @@
     "torrent-tracker-health": "^1.0.0"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.13.0"
+    "chai": "^4.1.2"
   }
 }
