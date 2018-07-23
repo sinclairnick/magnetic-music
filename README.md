@@ -5,7 +5,7 @@ Note: This package cannot practically implement promises due to the nature of to
 
 ---
 
-###Usage
+### Usage
 ```javascript
 const magmusic = require('magnetic-music');
 
@@ -17,7 +17,7 @@ magmusic({
 .then(albums => console.log(albums));
 ```
 
-###Options
+### Options
 In addition to the required "query" and "array" properties, you can also specify the page number you wish to search. This allows you to paginate as required.
 
 ```javascript
