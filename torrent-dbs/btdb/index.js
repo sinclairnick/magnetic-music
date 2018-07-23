@@ -1,23 +1,29 @@
-const searchBTDB = require('./searchBTDB');
+const scrapeBTDB = require('./scrapeBTDB');
 const sort = require('../../sort/index');
 
+module.exports = function (options) {
 
-module.exports = function (query, arr, page = 1) {
+    scrapeBTDB(options.query, options.page)
+        .then((results) => {
 
-
-    searchBTDB(query, page)
-        .then(function (results) {
             if (results.length < 1) {
-                console.log('Search could not be completed. BTDB servers may be down.\n')
+                console.log('No results found @ TPB');
             }
             else {
                 results.forEach(result => {
-                    sort(query, arr, result);
+                    sort(result)
+                        .then((album) => {
+                            if (!options.array.find(item => {
+                                album.link === item.link;
+                            })){
+                                console.log(album);
+                                options.array.push(album);
+                            }
+                        });
                 })
+
             }
-
         })
-        .catch(e=> console.log(e));
+        .catch(e => console.log(e));
 
-}
-
+};

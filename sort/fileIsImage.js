@@ -1,6 +1,6 @@
-module.exports = function fileIsImage(file) {
+module.exports = function fileIsImage (file) {
 
-    let imageFormats = ['.jpg', '.png', '.jpeg'];
+    let imageFormats = [ '.jpg', '.png', '.jpeg' ];
     for (format of imageFormats) {
         if (file.name.endsWith(format)) {
             return true;

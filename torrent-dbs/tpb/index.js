@@ -1,28 +1,34 @@
-
 const tpb = require('thepiratebay');
 const sort = require('../../sort/index');
 
-module.exports = function search(query, arr, page) {
+module.exports = function search (options) {
 
-    //tpb page 1 = page 0
-    page--;
+    //tpb's page 1 = page 0
+    options.page--;
 
-    tpb.search(query, {
+    tpb.search(options.query, {
         category: 'audio',
-        page
+        page: options.page
     })
         .then(results => {
 
             if (results.length < 1) {
-                console.log('No TPB results found');
+                console.log('No results found @ TPB');
             }
             else {
                 results.forEach(result => {
-                    sort(query, arr, result);
+                    sort(result)
+                        .then((album) => {
+                            if (!options.array.find(item => {
+                                album.link === item.link;
+                            })){
+                                options.array.push(album);
+                            }                        });
                 })
-            }
 
+            }
         })
-        .catch(err => console.log(err))
+        .catch(e => console.log(e));
+
 
 }

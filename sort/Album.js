@@ -15,7 +15,7 @@ module.exports = class Album {
         this.flac = false;
     }
 
-    addSong(fileName, torrentIndex) {
+    addSong (fileName, torrentIndex) {
 
         //extract file type
         let type = path.extname(fileName);

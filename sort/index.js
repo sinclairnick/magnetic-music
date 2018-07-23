@@ -1,87 +1,96 @@
+"use-strict";
+/* 
+Begins a torrent stream to expose the file metadata of music torrents.
+
+Returns an Album object (see ./Album.js)
+*/
+
+//lib
 const Album = require('./Album');
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-const crypto = require('crypto');
-const torrentStream = require('torrent-stream');
-const torrentHealth = require('torrent-tracker-health');
-const toBlobURL = require('stream-to-blob-url');
-
-
-//own modules
 const fileIsAudio = require('./fileIsAudio');
 const fileIsImage = require('./fileIsImage');
 
+//node
+const os = require('os');
+const path = require('path');
+const crypto = require('crypto');
+
+//npm
+const torrentStream = require('torrent-stream');
+const torrentHealth = require('torrent-tracker-health');
+const streamToBuffer = require('stream-with-known-length-to-buffer');
+const mime = require('mime');
+
+
 require('events').EventEmitter.prototype._maxListeners = 500;
 
-module.exports = function (query, arr, result) {
+let torrentDir = process.env.TMP_TORRENT || path.join(os.tmpdir(), 'magnetic-music');
 
-    //filename-safe query string
-    let torrentDir = process.env.TMP_TORRENT || path.join(os.tmpdir(),'juketorrents');
+module.exports = function (result) {
 
-    //nullify writable each time function is called
-    let magnet = result.magnet || result.magnetLink;
+    return new Promise((resolve, reject) => {
 
-    let torrent = new torrentStream(magnet, {path: torrentDir});
+        //filename-safe query string
+        let magnet = result.magnet || result.magnetLink;
+        let torrent = new torrentStream(magnet, {
+            path: torrentDir
+        });
 
-    torrent.on('ready', () => {
+        torrent.on('ready', () => {
 
-        //if torrent contains music
-        if (torrent.files.find((file, index) => {
-            return fileIsAudio(file);
-        })) {
+            //if torrent contains music
+            if (torrent.files.find((file, index) => {
+                return fileIsAudio(file);
+            })) {
 
-            //create an album object with name, link and popularity
-            let album = new Album( result.name, magnet );
-            let cover = null;
-            album.cover = [path.join('img', 'default-thumbnail.png')]
+                //create an Album object with name, link and health
+                let album = new Album(result.name, magnet);
+                let cover = null;
 
-            torrentHealth(magnet)
-            .then(res=> {
-                album.seeds = res.seeds;
-                album.health = Math.round((res.peers > 0 ? res.seeds / res.peers : res.seeds));
-            })
+                //getting magnet health
+                torrentHealth(magnet)
+                    .then(res => {
+                        album.seeds = res.seeds;
+                        album.health = Math.round((res.peers > 0 ? res.seeds / res.peers : res.seeds));
+                    })
 
-            //iterate over each file
-            torrent.files.forEach((file, index) => {
+                //iterate over each file and sort into songs and covers
+                torrent.files.forEach((file, index) => {
 
-                let id = crypto.randomBytes(16).toString('hex');
+                    //music file => songs array
+                    if (fileIsAudio(file)) {
+                        album.addSong(file.name, index);
+                    }
 
-                //add music files to the album's "songs" array
-                if (fileIsAudio(file)) {
-                    album.addSong(file.name, index);
-                }
+                    //image file => to be readStream()'d later
+                    else if (fileIsImage(file)) {
+                        cover = file;
+                    }
 
-                //download covers and assign path to album.cover
-                else if (fileIsImage(file)) {
-                    // writable = fs.createWriteStream(path.join(imgDir, `${id}.jpg`));
-                    // album.cover = [path.join(imgDir, `${id}.jpg`)];
-                    cover = file;
-                    // readable.pipe(writable);
+                    //once all files have been iterated and cover has been downloaded: return promise
+                    if (index === torrent.files.length - 1) {
+                        try {
+                            streamToBuffer(cover.createReadStream(), cover.length, (err, buf)=>{
+                                if(err)throw err;
+                                album.cover = [`data:${mime.getType(path.extname(cover.name))};base64,${buf.toString('base64')}`];
+                                let id = crypto.randomBytes(16).toString('hex');
+                                album.id = id;
+                                resolve(album);
+                            });
 
-                }
 
-                //once all files have been iterated and cover has been downloaded: return promise
-                if (index === torrent.files.length - 1) {
-                    try{
-                        readable = cover.createReadStream();
-                        toBlobURL(readable, (err, url) => {
-                            album.cover = url;
+                        } catch (e) {
                             let id = crypto.randomBytes(16).toString('hex');
                             album.id = id;
-                            arr.push(album);
-                        });
+                            resolve(album);
+                        }
                     }
-                    catch(e){
-                        let id = crypto.randomBytes(16).toString('hex');
-                        album.id = id;
-                        arr.push(album);
-                    }
-                }
 
-            })
-        }
+                })
+            }
+        })
     })
+
 
 
 }
