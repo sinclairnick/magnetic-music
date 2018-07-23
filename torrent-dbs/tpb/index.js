@@ -21,9 +21,10 @@ module.exports = function search (options) {
                         .then((album) => {
                             if (!options.array.find(item => {
                                 album.link === item.link;
-                            })){
+                            })) {
                                 options.array.push(album);
-                            }                        });
+                            }
+                        });
                 })
 
             }

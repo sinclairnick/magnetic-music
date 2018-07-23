@@ -1,4 +1,3 @@
-"use-strict";
 //exports the search function
 
 const searchBTDB = require('./torrent-dbs/btdb/index');
