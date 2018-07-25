@@ -46,6 +46,3 @@ module.exports = function (options) {
     })
 
 }
-
-module.exports({query: 'mozart'})
-.then(albums => console.log(albums[2]));
