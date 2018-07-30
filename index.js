@@ -46,9 +46,3 @@ module.exports = function (options) {
     })
 
 }
-let arr=[];
-module.exports({
-    query: 'frank ocean',
-    array: arr
-})
-.then(x => console.log(x));
