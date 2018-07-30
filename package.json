@@ -1,6 +1,6 @@
 {
   "name": "magnetic-music",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "npm package for finding and sorting music torrents",
   "main": "index.js",
   "scripts": {
