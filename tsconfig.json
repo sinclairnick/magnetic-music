@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "types": [
+      "mocha",
+      "es6-promise",
+      "node"
+    ],
+    "outDir": "./js",
+    "target": "es6"
+  },
+  "include": [
+    "**/*"
+  ],
+  "exclude": [
+    "node_modules",
+  ],
+  "watch": true
+}
