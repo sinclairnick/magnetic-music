@@ -4,6 +4,7 @@
   "description": "npm package for finding and sorting music torrents",
   "main": "index.js",
   "scripts": {
+    "build": "tsc && npm test",
     "test": "mocha js/test"
   },
   "author": "",

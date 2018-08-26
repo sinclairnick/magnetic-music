@@ -20,6 +20,7 @@ exports.default = (result) => new Promise((resolve, reject) => {
             else
                 reject(`No supported audio files in ${torrent.name}`);
         });
+    setTimeout(() => reject('Timed out after 15 seconds'), 15000);
 });
 const stopDL = (torrent) => torrent.deselect(0, torrent.pieces.length - 1, false);
 const audioExistsIn = (torrent) => torrent.files.find(file => (audioFormats.indexOf(path.extname(file.name))) > -1);
