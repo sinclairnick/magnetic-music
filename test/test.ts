@@ -24,7 +24,7 @@ describe('Promise returned', function () {
 
   describe('Album', () => {
     it('should contain songs of type Song', () => {
-      results.forEach(album => album.songs.forEach(song => assert.instanceOf(song, Song, 'song is instance of Song')));
+      assert.isTrue(results.every(album => album.songs.every(song => song instanceof Song)))
     })
   })
 })
@@ -35,10 +35,10 @@ describe('Array provided', function () {
 
   before((done) => {
     search('frank ocean', { array: results });
-    setInterval(() => { console.log(results.length); done() }, 10000);
+    setTimeout(() => done(), 10000);
   })
 
-  it('should do something', () => {
+  it('should iteratively add to the provided array', () => {
     assert.isTrue(results.length > 0);
   })
 

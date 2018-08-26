@@ -21,7 +21,7 @@ describe('Promise returned', function () {
     });
     describe('Album', () => {
         it('should contain songs of type Song', () => {
-            results.forEach(album => album.songs.forEach(song => chai_1.assert.instanceOf(song, Album_1.Song, 'song is instance of Song')));
+            chai_1.assert.isTrue(results.every(album => album.songs.every(song => song instanceof Album_1.Song)));
         });
     });
 });
@@ -30,9 +30,9 @@ describe('Array provided', function () {
     let results = [];
     before((done) => {
         index_1.default('frank ocean', { array: results });
-        setInterval(() => { console.log(results.length); done(); }, 10000);
+        setTimeout(() => done(), 10000);
     });
-    it('should do something', () => {
+    it('should iteratively add to the provided array', () => {
         chai_1.assert.isTrue(results.length > 0);
     });
 });

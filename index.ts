@@ -12,6 +12,8 @@ interface Options {
   array?: any[];
 }
 
+
+
 export default (query: string, { page = 0, array = [] }: Options = {}) => new Promise((resolve, reject) => {
 
   const proms = DB.map(fn => fn(query, page));
@@ -23,6 +25,6 @@ export default (query: string, { page = 0, array = [] }: Options = {}) => new Pr
 })
 
 const joinDBResults = (res) => res.reduce((results: [], result: []) => [...results, ...result], []);
-const sortIntoAlbums = (results, array) => results.map(result => sort(result).catch(e => console.warn(e)))
+const sortIntoAlbums = (results, array) => results.map(album => sort(album).then(res => { array.push(res); return res }).catch(e => console.log(e)));
 const filterAndReturn = (arr, resolve) => Promise.all(arr).then(res => resolve(res.filter(album => album))).catch(e => console.log(e));
 //    ^^^^^^ removes any undefined (rejected) promises
