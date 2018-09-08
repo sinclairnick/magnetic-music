@@ -16,7 +16,6 @@ exports.default = (result, array) => new Promise((resolve, reject) => {
                 const files = torrent.files.reduce(intoImagesAndAudio, { audio: [], images: [] });
                 Promise.all(files.images.map(image => getCoverBuffer(image))).then(images => {
                     const album = new Album_1.default(torrent.name, magnet, torrent.ratio, files.audio.map(({ name, index, length, file }) => Album_1.default.newSong(name, index, magnet, length, file)), images.filter(image => image), result.size);
-                    console.log('pushing album');
                     array.push(album);
                     resolve(album);
                 });

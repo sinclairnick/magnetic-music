@@ -12,10 +12,10 @@ exports.default = (query, { page = 0, array = [] } = {}) => new Promise((resolve
     Promise.all(proms)
         .then((searchRes) => joinDBResults(searchRes))
         .then(results => sortIntoAlbums(results, array))
-        .then(arr => filterAndReturn(arr, resolve))
+        .then(arr => filterAndReturn(arr, resolve, reject))
         .catch(e => reject(e));
 });
 const joinDBResults = (res) => res.reduce((results, result) => [...results, ...result], []);
-const sortIntoAlbums = (results, array) => results.map(album => sort_1.default(album, array).then(res => res).catch(e => console.log(e)));
-const filterAndReturn = (arr, resolve) => Promise.all(arr).then(res => resolve(res.filter(album => album))).catch(e => console.log(e));
+const sortIntoAlbums = (results, array) => results.map(album => sort_1.default(album, array).then(res => res).catch(e => null));
+const filterAndReturn = (arr, resolve, reject) => Promise.all(arr).then(res => resolve(res.filter(album => album))).catch(e => reject(e));
 //    ^^^^^^ Removes any undefined (rejected) promises

@@ -11,7 +11,6 @@ describe('magMusic()', () => {
 
   before((done) => {
     magMusic('Frank Ocean', { array, page: 1 }).then(res => {
-      console.log(res);
       page1 = res;
       done();
     });
@@ -38,11 +37,15 @@ describe('magMusic() before resolved', () => {
 
   before((done) => {
     magMusic('Frank Ocean', { array });
-    setTimeout(() => done(), 5000);
+    setTimeout(() => done(), 10000);
   })
 
-  it('pushes Albums to the provided array', () => {
-    assert(array.length > 1 && array.every(item => item instanceof Album))
+  it('pushes items to the provided array', () => {
+    assert(array.length > 1)
+  })
+
+  it('only pushes albums', () => {
+    assert(array.every(album => album instanceof Album))
   })
 
 })
