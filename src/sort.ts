@@ -24,7 +24,7 @@ export default (result, array) => new Promise((resolve, reject) => {
           torrent.name,
           magnet,
           torrent.ratio,
-          files.audio.map(({ name, index, length, file }) => Album.newSong(name, index, magnet, length, file)),
+          files.audio.map(({ name, index, length }) => Album.newSong(name, index, magnet, length)),
           images.filter(image => image),
           result.size
         )
