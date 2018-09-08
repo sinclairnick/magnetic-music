@@ -15,7 +15,7 @@ exports.default = (result, array) => new Promise((resolve, reject) => {
             if (audioExistsIn(torrent)) {
                 const files = torrent.files.reduce(intoImagesAndAudio, { audio: [], images: [] });
                 Promise.all(files.images.map(image => getCoverBuffer(image))).then(images => {
-                    const album = new Album_1.default(torrent.name, magnet, torrent.ratio, files.audio.map(({ name, index, length, file }) => Album_1.default.newSong(name, index, magnet, length, file)), images.filter(image => image), result.size);
+                    const album = new Album_1.default(torrent.name, magnet, torrent.ratio, files.audio.map(({ name, index, length }) => Album_1.default.newSong(name, index, magnet, length)), images.filter(image => image), result.size);
                     array.push(album);
                     resolve(album);
                 });
