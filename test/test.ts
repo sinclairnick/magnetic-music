@@ -1,45 +1,48 @@
-import { assert } from 'chai';
-import search from '../index';
-import Album, { Song } from '../src/Album';
-import 'mocha';
+import * as assert from 'assert';
+import Album from '../src/Album';
+import magMusic from '../index';
+import * as deepEqual from 'deep-equal';
 
-describe('Promise returned', function () {
-  this.timeout(30000);
-  let results;
+describe('magMusic()', () => {
+
+  let array = [];
+  let page1;
+  let page2;
 
   before((done) => {
-    search('frank ocean').then(res => { results = res; done() }).catch(err => console.log(err));
+    magMusic('Frank Ocean', { array, page: 1 }).then(res => {
+      console.log(res);
+      page1 = res;
+      done();
+    });
+    page2 = magMusic('Frank Ocean', { page: 2 }).then(res => { page2 = res });
   })
 
-  // tests are broken: they pass when they shoud not
-  describe('Array', () => {
-    it('should return an array ', () => {
-      assert.typeOf(results, 'array');
-    })
-    it('should contain only Album objects', () => {
-      assert.isTrue(results.every(album => album instanceof Album), 'Array only contains Albums')
-    })
-
+  it('returns an array', () => {
+    assert(page1 instanceof Array);
   })
 
-  describe('Album', () => {
-    it('should contain songs of type Song', () => {
-      assert.isTrue(results.every(album => album.songs.every(song => song instanceof Song)))
-    })
+  it('returns only Album objects', () => {
+    assert(page1.every(result => result instanceof Album))
   })
+
+  it('returns different results based on the page', () => {
+    assert(!deepEqual(page1, page2))
+  })
+
 })
 
-describe('Array provided', function () {
-  this.timeout(30000);
-  let results = [];
+describe('magMusic() before resolved', () => {
+
+  let array = [];
 
   before((done) => {
-    search('frank ocean', { array: results });
-    setTimeout(() => done(), 10000);
+    magMusic('Frank Ocean', { array });
+    setTimeout(() => done(), 5000);
   })
 
-  it('should iteratively add to the provided array', () => {
-    assert.isTrue(results.length > 0);
+  it('pushes Albums to the provided array', () => {
+    assert(array.length > 1 && array.every(item => item instanceof Album))
   })
 
 })

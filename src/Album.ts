@@ -5,7 +5,9 @@ export class Song {
     public fileName: string,
     public torrentIndex: number,
     public format: string,
-    public link: string
+    public link: string,
+    public length: number,
+    public file: any
   ) {
   }
   title?: string;
@@ -32,7 +34,7 @@ export default class Album {
   year?: number;
   metadata = false;
 
-  static newSong = (fileName: string, torrentIndex: number, link: string) => {
+  static newSong = (fileName: string, torrentIndex: number, link: string, length: number, file: any) => {
 
     const format = path.extname(fileName);
 
@@ -40,7 +42,9 @@ export default class Album {
       fileName.replace(format, ''),
       torrentIndex,
       format,
-      link
+      link,
+      length,
+      file
     );
   }
 }

@@ -2,11 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require('path');
 class Song {
-    constructor(fileName, torrentIndex, format, link) {
+    constructor(fileName, torrentIndex, format, link, length, file) {
         this.fileName = fileName;
         this.torrentIndex = torrentIndex;
         this.format = format;
         this.link = link;
+        this.length = length;
+        this.file = file;
     }
 }
 exports.Song = Song;
@@ -21,8 +23,8 @@ class Album {
         this.metadata = false;
     }
 }
-Album.newSong = (fileName, torrentIndex, link) => {
+Album.newSong = (fileName, torrentIndex, link, length, file) => {
     const format = path.extname(fileName);
-    return new Song(fileName.replace(format, ''), torrentIndex, format, link);
+    return new Song(fileName.replace(format, ''), torrentIndex, format, link, length, file);
 };
 exports.default = Album;

@@ -1,6 +1,7 @@
 import searchTPB from './src/scrape/tpb';
 import searchBTDB from './src/scrape/btdb';
 import sort from './src/sort';
+import Album from './src/Album';
 
 const DB = [
   searchTPB,
@@ -25,6 +26,7 @@ export default (query: string, { page = 0, array = [] }: Options = {}) => new Pr
 })
 
 const joinDBResults = (res) => res.reduce((results: [], result: []) => [...results, ...result], []);
-const sortIntoAlbums = (results, array) => results.map(album => sort(album).then(res => { array.push(res); return res }).catch(e => console.log(e)));
+const sortIntoAlbums = (results, array) => results.map(album => sort(album, array).then(res => res).catch(e => console.log(e)));
 const filterAndReturn = (arr, resolve) => Promise.all(arr).then(res => resolve(res.filter(album => album))).catch(e => console.log(e));
-//    ^^^^^^ removes any undefined (rejected) promises
+//    ^^^^^^ Removes any undefined (rejected) promises
+

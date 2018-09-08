@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc && npm test",
-    "test": "mocha js/test"
+    "test": "mocha js/test --timeout 20000"
   },
   "author": "",
   "license": "MIT",
@@ -23,6 +23,8 @@
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.9.2",
     "chai": "^4.1.2",
-    "mocha": "^5.2.0"
+    "deep-equal": "^1.0.1",
+    "mocha": "^5.2.0",
+    "wish": "^1.0.1"
   }
 }
