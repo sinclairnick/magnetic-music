@@ -1,2 +1,2 @@
-*.ts
 node_modules
+**/*.ts
