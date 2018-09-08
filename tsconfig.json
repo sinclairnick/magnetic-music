@@ -6,11 +6,12 @@
       "es6-promise",
       "node"
     ],
-    "outDir": "./js",
+    "outDir": ".",
     "target": "es6"
   },
   "include": [
-    "**/*"
+    "**/*",
+    "index.ts"
   ],
   "exclude": [
     "node_modules",
