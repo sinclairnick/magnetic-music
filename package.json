@@ -7,8 +7,12 @@
     "build": "tsc && npm test",
     "test": "mocha test --timeout 20000"
   },
-  "author": "",
+  "author": "sinclairnick",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sinclairnick/magnetic-music.git"
+  },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "mime": "^2.3.1",
