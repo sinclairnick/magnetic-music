@@ -42,14 +42,14 @@ Album {
 ```
 With arrays of Song objects:
 ```javascript
-Song{
+Song {
   fileName: String,
   torrentIndex: Number,
   format: String,
   link: 'magnet:?xt=urn:...',
   length: Number,
   file: any
-}
+    }
 ```
 
 ### License
