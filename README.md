@@ -11,6 +11,10 @@ npm i --save magnetic-music
 ## Usage
 
 ```javascript
+import magMusic from 'magnetic-music';
+//or
+const magMusic = require('magnetic-music').default;
+
 const albums = [];
 magMusic('frank ocean', { array: albums })
 ```
