@@ -12,8 +12,10 @@ describe('magMusic()', () => {
         index_1.default('Frank Ocean', { array, page: 1 }).then(res => {
             page1 = res;
             done();
-        });
-        page2 = index_1.default('Frank Ocean', { page: 2 }).then(res => { page2 = res; });
+        })
+            .catch(e => e);
+        page2 = index_1.default('Frank Ocean', { page: 2 }).then(res => { page2 = res; })
+            .catch(e => e);
     });
     it('returns an array', () => {
         assert(page1 instanceof Array);
@@ -28,7 +30,8 @@ describe('magMusic()', () => {
 describe('magMusic() before resolved', () => {
     let array = [];
     before((done) => {
-        index_1.default('Frank Ocean', { array });
+        index_1.default('Frank Ocean', { array })
+            .catch(e => e);
         setTimeout(() => done(), 10000);
     });
     it('pushes items to the provided array', () => {

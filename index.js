@@ -8,7 +8,7 @@ const DB = [
     btdb_1.default
 ];
 exports.default = (query, { page = 0, array = [] } = {}) => new Promise((resolve, reject) => {
-    const proms = DB.map(fn => fn(query, page));
+    const proms = DB.map(fn => fn(query, page).catch(e => reject(e)));
     Promise.all(proms)
         .then((searchRes) => joinDBResults(searchRes))
         .then(results => sortIntoAlbums(results, array))
